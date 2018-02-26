@@ -8,7 +8,7 @@ import com.github.nitrico.lastadapter.Type
 import io.dka.deuteronomy.BR
 import io.dka.deuteronomy.R
 import io.dka.deuteronomy.databinding.ItemUserBinding
-import io.dka.deuteronomy.ioc.UsersContext
+import io.dka.deuteronomy.ioc.GetUsersScope
 import io.dka.deuteronomy.presentation.UsersView
 import io.dka.deuteronomy.presentation.getUsers
 import io.dka.deuteronomy.presentation.onUserItemClick
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_users.*
 
 class UsersScene : AppCompatActivity(), UsersView
 {
-    lateinit var getUsersContext: UsersContext.GetUsersContext
+    lateinit var getUsersContext: GetUsersScope
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -27,7 +27,7 @@ class UsersScene : AppCompatActivity(), UsersView
         usersList.setHasFixedSize(true)
         usersList.layoutManager = LinearLayoutManager(this)
 
-        getUsersContext = UsersContext.GetUsersContext(this, this)
+        getUsersContext = GetUsersScope(context = this, view = this)
     }
 
     override fun onResume()

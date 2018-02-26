@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.dka.deuteronomy.R
-import io.dka.deuteronomy.ioc.UsersContext.GetUserDetailsContext
+import io.dka.deuteronomy.ioc.GetUserDetailsScope
 import io.dka.deuteronomy.presentation.UserDetailsView
 import io.dka.deuteronomy.presentation.getUserDetails
 import io.dka.deuteronomy.view.model.UserViewModel
@@ -33,7 +33,7 @@ class UserDetailsScene : AppCompatActivity(), UserDetailsView
     {
         super.onResume()
         intent.extras?.getLong(USER_ID)?.let { userId ->
-            getUserDetails(userId).run(GetUserDetailsContext(this, this))
+            getUserDetails(userId).run(GetUserDetailsScope(context = this, view = this))
         } ?: closeWithError()
     }
 

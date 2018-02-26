@@ -54,6 +54,7 @@ dependencies {
     implementation "io.arrow-kt:arrow-optics:${arrowVersion}"
 
     implementation "com.squareup.retrofit2:retrofit:2.3.0"
+    testImplementation "com.squareup.retrofit2:retrofit-mock:2.3.0"
     implementation "com.squareup.retrofit2:converter-gson:2.3.0"
 
     implementation(dependencies.create("com.github.nitrico.lastadapter:lastadapter:2.3.0")

@@ -1,4 +1,4 @@
-package io.dka.genesis
+package io.dka.deuteronomy
 
 import org.junit.Test
 

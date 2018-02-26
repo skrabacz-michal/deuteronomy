@@ -3,7 +3,6 @@ package io.dka.deuteronomy.presentation
 import arrow.core.IdHK
 import arrow.core.Some
 import arrow.core.identity
-import arrow.data.Kleisli.Companion.ask
 import arrow.data.Reader
 import arrow.data.flatMap
 import arrow.data.map
@@ -13,8 +12,8 @@ import io.dka.deuteronomy.domain.getUserDetailsUseCase
 import io.dka.deuteronomy.domain.getUsersUseCase
 import io.dka.deuteronomy.domain.model.User
 import io.dka.deuteronomy.domain.model.UsersError
-import io.dka.deuteronomy.ioc.UsersContext.GetUserDetailsContext
-import io.dka.deuteronomy.ioc.UsersContext.GetUsersContext
+import io.dka.deuteronomy.ioc.GetUserDetailsScope
+import io.dka.deuteronomy.ioc.GetUsersScope
 import io.dka.deuteronomy.view.model.UserViewModel
 import java.net.HttpURLConnection
 
@@ -34,11 +33,11 @@ interface UserDetailsView : UserView
     fun drawUser(user: UserViewModel)
 }
 
-fun onUserItemClick(userId: Long) = Reader.ask<IdHK, GetUsersContext>().flatMap({
+fun onUserItemClick(userId: Long) = Reader.ask<IdHK, GetUsersScope>().flatMap({
     it.userDetailsPage.go(userId)
 })
 
-fun getUsers() = ask<IdHK, GetUsersContext>()
+fun getUsers() = Reader.ask<IdHK, GetUsersScope>()
         .flatMap({ (_, view: UsersView) ->
             getUsersUseCase().map({ io ->
                 io.ev().unsafeRunAsync { maybeUsers ->
@@ -49,7 +48,7 @@ fun getUsers() = ask<IdHK, GetUsersContext>()
             })
         })
 
-fun getUserDetails(userId: Long) = ask<IdHK, GetUserDetailsContext>()
+fun getUserDetails(userId: Long) = Reader.ask<IdHK, GetUserDetailsScope>()
         .flatMap({ (_, view: UserDetailsView) ->
             getUserDetailsUseCase(userId).map({ io ->
                 io.ev().unsafeRunAsync { maybeUser ->
