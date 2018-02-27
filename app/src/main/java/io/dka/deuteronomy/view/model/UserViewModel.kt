@@ -1,3 +1,5 @@
 package io.dka.deuteronomy.view.model
 
-data class UserViewModel(val id: Long, val name: String)
+import android.arch.lifecycle.ViewModel
+
+class UserViewModel: ViewModel()

@@ -14,7 +14,6 @@ import io.dka.deuteronomy.domain.model.User
 import io.dka.deuteronomy.domain.model.UsersError
 import io.dka.deuteronomy.ioc.GetUserDetailsScope
 import io.dka.deuteronomy.ioc.GetUsersScope
-import io.dka.deuteronomy.view.model.UserViewModel
 import java.net.HttpURLConnection
 
 interface UserView
@@ -25,12 +24,12 @@ interface UserView
 
 interface UsersView : UserView
 {
-    fun drawUsers(users: List<UserViewModel>)
+    fun drawUsers(users: List<User>)
 }
 
 interface UserDetailsView : UserView
 {
-    fun drawUser(user: UserViewModel)
+    fun drawUser(user: User)
 }
 
 fun onUserItemClick(userId: Long) = Reader.ask<IdHK, GetUsersScope>().flatMap({
@@ -68,12 +67,12 @@ private fun drawError(error: UsersError, view: UserView) = when (error)
 
 private fun drawUsers(users: List<User>, view: UsersView)
 {
-    view.drawUsers(users = users.map { UserViewModel(id = it.id, name = it.name) })
+    view.drawUsers(users = users)
 }
 
 private fun drawUserDetails(user: User, view: UserDetailsView)
 {
-    view.drawUser(UserViewModel(id = user.id, name = user.name))
+    view.drawUser(user)
 }
 
 private fun exceptionAsUsersError(throwable: Throwable): UsersError = when (throwable)

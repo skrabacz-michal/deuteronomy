@@ -8,16 +8,16 @@ import com.github.nitrico.lastadapter.Type
 import io.dka.deuteronomy.BR
 import io.dka.deuteronomy.R
 import io.dka.deuteronomy.databinding.ItemUserBinding
+import io.dka.deuteronomy.domain.model.User
 import io.dka.deuteronomy.ioc.GetUsersScope
 import io.dka.deuteronomy.presentation.UsersView
 import io.dka.deuteronomy.presentation.getUsers
 import io.dka.deuteronomy.presentation.onUserItemClick
-import io.dka.deuteronomy.view.model.UserViewModel
 import kotlinx.android.synthetic.main.activity_users.*
 
 class UsersScene : AppCompatActivity(), UsersView
 {
-    lateinit var getUsersContext: GetUsersScope
+    private lateinit var getUsersContext: GetUsersScope
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -39,9 +39,9 @@ class UsersScene : AppCompatActivity(), UsersView
     /**
      * Presentation
      */
-    override fun drawUsers(users: List<UserViewModel>) = runOnUiThread {
+    override fun drawUsers(users: List<User>) = runOnUiThread {
         LastAdapter(users, BR.user)
-                .map<UserViewModel>(Type<ItemUserBinding>(R.layout.item_user)
+                .map<User>(Type<ItemUserBinding>(R.layout.item_user)
                         .onClick {
                             it.binding.user?.id?.let { userId ->
                                 onUserItemClick(userId).run(getUsersContext)

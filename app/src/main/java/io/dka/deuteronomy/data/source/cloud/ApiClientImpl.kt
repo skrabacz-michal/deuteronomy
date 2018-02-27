@@ -3,6 +3,8 @@ package io.dka.deuteronomy.data.source.cloud
 import io.dka.deuteronomy.BuildConfig
 import io.dka.deuteronomy.data.error.ApiError
 import io.dka.deuteronomy.data.model.UserEntity
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -17,8 +19,18 @@ interface ApiClient
 
 open class ApiClientImpl : ApiClient
 {
+    private val loggingInterceptor: HttpLoggingInterceptor
+        get() = HttpLoggingInterceptor()
+                .setLevel(getLoggingLevel())
+
+    private val okHttp: OkHttpClient
+        get() = OkHttpClient.Builder()
+                .addNetworkInterceptor(loggingInterceptor)
+                .build()
+
     private val retrofit: Retrofit
         get() = Retrofit.Builder()
+                .client(okHttp)
                 .baseUrl(BuildConfig.SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -47,5 +59,14 @@ open class ApiClientImpl : ApiClient
                 false -> throw ApiError(httpCode = response.code(), description = response.message())
             }
         }
+    }
+
+    /**
+     * Helpers
+     */
+    private fun getLoggingLevel() = when (BuildConfig.DEBUG)
+    {
+        true -> HttpLoggingInterceptor.Level.BODY
+        false -> HttpLoggingInterceptor.Level.HEADERS
     }
 }

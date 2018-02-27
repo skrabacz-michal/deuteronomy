@@ -53,9 +53,14 @@ dependencies {
     implementation "io.arrow-kt:arrow-effects-kotlinx-coroutines:${arrowVersion}"
     implementation "io.arrow-kt:arrow-optics:${arrowVersion}"
 
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
+
     implementation "com.squareup.retrofit2:retrofit:2.3.0"
-    testImplementation "com.squareup.retrofit2:retrofit-mock:2.3.0"
     implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+
+    testImplementation "com.squareup.okhttp3:mockwebserver:3.10.0"
+    testImplementation "com.squareup.retrofit2:retrofit-mock:2.3.0"
 
     implementation(dependencies.create("com.github.nitrico.lastadapter:lastadapter:2.3.0")
     {
@@ -63,6 +68,8 @@ dependencies {
         exclude group: "org.jetbrains.kotlin"
     })
     kapt "com.android.databinding:compiler:3.0.1"
+
+    implementation "android.arch.lifecycle:extensions:1.1.0"
 
     // Tests
     testImplementation 'junit:junit:4.12'

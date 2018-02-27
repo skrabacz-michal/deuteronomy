@@ -5,7 +5,7 @@
     tools:ignore="ContentDescription">
 
     <data>
-        <variable name="user" type="io.dka.deuteronomy.view.model.UserViewModel"/>
+        <variable name="user" type="io.dka.deuteronomy.domain.model.User"/>
     </data>
 
     <FrameLayout

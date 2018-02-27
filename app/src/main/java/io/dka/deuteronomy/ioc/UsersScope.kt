@@ -11,13 +11,20 @@ import io.dka.deuteronomy.presentation.runner.Runner
 
 // TODO msq - inject ApiClient
 
+object AppScope
+{
+    val apiClient: ApiClient by lazy { ApiClientImpl() }
+
+    val backgroundRunner: Runner by lazy { BackgroundRunner() }
+}
+
 data class GetUsersScope(val context: Context,
                          val view: UsersView,
-                         val runner: Runner = BackgroundRunner(),
-                         val apiClient: ApiClient = ApiClientImpl(),
+                         val runner: Runner = AppScope.backgroundRunner,
+                         val apiClient: ApiClient = AppScope.apiClient,
                          val userDetailsPage: UserDetailsPage = UserDetailsPage())
 
 data class GetUserDetailsScope(val context: Context,
                                val view: UserDetailsView,
-                               val runner: Runner = BackgroundRunner(),
-                               val apiClient: ApiClient = ApiClientImpl())
+                               val runner: Runner = AppScope.backgroundRunner,
+                               val apiClient: ApiClient = AppScope.apiClient)

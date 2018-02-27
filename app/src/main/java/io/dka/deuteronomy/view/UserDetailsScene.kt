@@ -1,10 +1,12 @@
 package io.dka.deuteronomy.view
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import io.dka.deuteronomy.R
+import io.dka.deuteronomy.domain.model.User
 import io.dka.deuteronomy.ioc.GetUserDetailsScope
 import io.dka.deuteronomy.presentation.UserDetailsView
 import io.dka.deuteronomy.presentation.getUserDetails
@@ -27,6 +29,8 @@ class UserDetailsScene : AppCompatActivity(), UserDetailsView
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_details)
+
+        val viewModel = ViewModelProviders.of(this)[UserViewModel::class.java]
     }
 
     override fun onResume()
@@ -40,7 +44,7 @@ class UserDetailsScene : AppCompatActivity(), UserDetailsView
     /**
      * Presentation
      */
-    override fun drawUser(user: UserViewModel) = runOnUiThread {
+    override fun drawUser(user: User) = runOnUiThread {
         userName.text = user.name
     }
 
