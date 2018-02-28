@@ -1,18 +1,17 @@
 package io.dka.deuteronomy.data.source.cloud
 
-import arrow.HK
 import arrow.core.IdHK
 import arrow.data.Reader
 import arrow.data.map
 import arrow.effects.IO
-import arrow.effects.IOHK
 import arrow.effects.monadSuspend
 import arrow.typeclasses.bindingCatch
 import io.dka.deuteronomy.data.model.UserEntity
+import io.dka.deuteronomy.domain.AsyncResult
 import io.dka.deuteronomy.ioc.GetUserDetailsScope
 import io.dka.deuteronomy.ioc.GetUsersScope
 
-fun fetchAllUsers(): Reader<GetUsersScope, HK<IOHK, List<UserEntity>>> = Reader.ask<IdHK, GetUsersScope>().map({ ctx ->
+fun fetchAllUsers(): AsyncResult<GetUsersScope, List<UserEntity>> = Reader.ask<IdHK, GetUsersScope>().map({ ctx ->
     IO.monadSuspend().bindingCatch {
         ctx.runner.run(
                 f = { queryForUsers(ctx) },
@@ -22,7 +21,7 @@ fun fetchAllUsers(): Reader<GetUsersScope, HK<IOHK, List<UserEntity>>> = Reader.
     }
 })
 
-fun fetchUserDetails(userId: Long): Reader<GetUserDetailsScope, HK<IOHK, UserEntity>> = Reader.ask<IdHK, GetUserDetailsScope>().map({ ctx ->
+fun fetchUserDetails(userId: Long): AsyncResult<GetUserDetailsScope, UserEntity> = Reader.ask<IdHK, GetUserDetailsScope>().map({ ctx ->
     IO.monadSuspend().bindingCatch {
         ctx.runner.run(
                 f = { queryForUser(ctx, userId) },
@@ -32,8 +31,6 @@ fun fetchUserDetails(userId: Long): Reader<GetUserDetailsScope, HK<IOHK, UserEnt
     }
 })
 
-private fun queryForUsers(context: GetUsersScope): List<UserEntity> =
-        context.apiClient.fetchUsers()
+private fun queryForUsers(context: GetUsersScope): List<UserEntity> = context.apiClient.fetchUsers()
 
-private fun queryForUser(context: GetUserDetailsScope, userId: Long): UserEntity =
-        context.apiClient.fetchUser(userId)
+private fun queryForUser(context: GetUserDetailsScope, userId: Long): UserEntity = context.apiClient.fetchUser(userId)

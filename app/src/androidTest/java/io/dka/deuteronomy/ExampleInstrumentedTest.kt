@@ -1,4 +1,4 @@
-package io.dka.genesis
+package io.dka.deuteronomy
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -21,6 +21,6 @@ class ExampleInstrumentedTest
     {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("io.dka.genesis", appContext.packageName)
+        assertEquals("io.dka.deuteronomy", appContext.packageName)
     }
 }

@@ -1,7 +1,7 @@
 package io.dka.deuteronomy.domain
 
-import arrow.data.EitherT
-import arrow.data.ReaderT
-import arrow.effects.IO
+import arrow.HK
+import arrow.data.Reader
+import arrow.effects.IOHK
 
-//typealias AsyncResult = ReaderT<EitherT<IO>>
+typealias AsyncResult<D, A> = Reader<D, HK<IOHK, A>>

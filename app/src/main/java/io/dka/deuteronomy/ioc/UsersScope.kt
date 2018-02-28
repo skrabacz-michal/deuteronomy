@@ -1,6 +1,7 @@
 package io.dka.deuteronomy.ioc
 
 import android.content.Context
+import io.dka.deuteronomy.Logger
 import io.dka.deuteronomy.data.source.cloud.ApiClient
 import io.dka.deuteronomy.data.source.cloud.ApiClientImpl
 import io.dka.deuteronomy.presentation.UserDetailsView
@@ -16,15 +17,19 @@ object AppScope
     val apiClient: ApiClient by lazy { ApiClientImpl() }
 
     val backgroundRunner: Runner by lazy { BackgroundRunner() }
+
+    val logger: Logger by lazy { Logger }
 }
+
+open class LoggerScope(val logger: Logger = AppScope.logger)
 
 data class GetUsersScope(val context: Context,
                          val view: UsersView,
                          val runner: Runner = AppScope.backgroundRunner,
                          val apiClient: ApiClient = AppScope.apiClient,
-                         val userDetailsPage: UserDetailsPage = UserDetailsPage())
+                         val userDetailsPage: UserDetailsPage = UserDetailsPage()) : LoggerScope()
 
 data class GetUserDetailsScope(val context: Context,
                                val view: UserDetailsView,
                                val runner: Runner = AppScope.backgroundRunner,
-                               val apiClient: ApiClient = AppScope.apiClient)
+                               val apiClient: ApiClient = AppScope.apiClient) : LoggerScope()
